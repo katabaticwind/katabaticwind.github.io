@@ -7,8 +7,8 @@ description: "Research and development blog"
 # Your name. Will show in your footer + sidebar
 author: "Anonymous"
 
-url: "http://katabaticwind.github.io"
-baseurl: "/blog"
+url: "https://katabaticwind.github.io"
+# baseurl: "/blog"
 
 # A short presentation of yourself. Will show in the sidebar, under your name. Best usage would be between 30 to 50 words.
 author-bio: "I'm a data scientist and machine learning researcher."
