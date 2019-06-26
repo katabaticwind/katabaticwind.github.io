@@ -13,6 +13,11 @@
       <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700|Lora:400,700,400italic" rel="stylesheet" type="text/css">
       <link rel="stylesheet" type="text/css" href="/css/main.css" />
       <link href="atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+      <!-- Load KaTeX -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"></script>
   </head>
 
   <body>
@@ -56,14 +61,14 @@
   <ul class="posts">
     
     <li itemscope itemtype="http://schema.org/BlogPosting">
-      <a href="/2019/06/17/icml-2019-highlights/" itemprop="url">
+      <a href="/2019/06/17/icml-2019-invited-talks/" itemprop="url">
         <div class="p-wrap">
           <article class="inner">
             <time datetime="2019-06-17T11:03:00-04:00"
                 itemprop="datePublished">
               17 Jun 2019
             </time>
-            <p itemprop="name headline">ICML 2019: Highlights</p>
+            <p itemprop="name headline">ICML 2019: Invited Talks</p>
           </article>
         </div>
       </a>
@@ -86,6 +91,19 @@
     <script src="/js/main.js"></script>
     
     
+
+    <!-- Changing MathJax to KaTex -->
+    <script>
+      $("script[type='math/tex']").replaceWith(function() {
+          var tex = $(this).text();
+          return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: false});
+      });
+
+      $("script[type='math/tex; mode=display']").replaceWith(function() {
+          var tex = $(this).html();
+          return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+      });
+    </script>
 
   </body>
 </html>

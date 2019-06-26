@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+      <title>katabaticwind's blog - Research and development blog</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta http-equiv="content-language" content="en-gb" />
+      <meta name="description" content="Research and development blog">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700|Lora:400,700,400italic" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css" href="/css/main.css" />
+      <link href="atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+      <!-- Load KaTeX -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"></script>
+  </head>
+
+  <body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="off-canvas">
+      <figure class="avatar">
+        <img src="/assets/img/avatar.jpg" alt="Picture" title="That's me, Anonymous.">
+      </figure>
+      <div class="bio">
+          <h1>Hi, I'm Anonymous.</h1>
+          <p>I'm a data scientist and machine learning researcher.</p>
+      </div>
+      <nav>
+        <h6>Follow me on</h6>
+        <ul>
+          
+          
+          <li><a target="_blank" href="https://github.com/katabaticwind">Github</a></li>
+          
+          
+          
+        </ul>
+      </nav>
+    </div>
+
+
+    <div class="site-wrapper">
+
+      <header>
+        <div class="h-wrap">
+          <h1 class="title"><a href="/" title="Back to Homepage">katabaticwind's blog</a></h1>
+          <a class="menu-icon" title="Open Bio"><span class="lines"></span></a>
+        </div>
+      </header>
+
+      <main>
+        <section class="single-wrap">
+  <article class="single-content" itemscope itemtype="http://schema.org/BlogPosting">
+    <div class="feat">
+      <h5 class="page-date">
+        <time datetime="2019-06-22T00:00:00-04:00" itemprop="datePublished">
+          22 June 2019
+        </time>
+      </h5>
+    </div>
+    <h1 class="page-title" itemprop="name headline">Reinfocement Learning: Actor-Critic Algorithms</h1>
+    <div itemprop="articleBody">
+      <h2 id="introduction">Introduction</h2>
+<ul>
+  <li>Policy gradient methods work pretty well, but they are quite slow because it requires <em>a lot</em> of experience to come up with decent Monte Carlo samples.</li>
+  <li>Actor-Critic methods take the policy gradient update and convert it into a “bootstrap” update. This alteration can speed up training, but might be a bit less stable.</li>
+  <li>Recall that the vanilla policy gradient algorithm attempts to directly improve a random policy by moving in the direction of highest expected return,
+<script type="math/tex">\theta \leftarrow \theta + \alpha \nabla_{\theta}J(\theta)</script>, where <script type="math/tex">J(\theta)</script> is the expected return under policy <script type="math/tex">\pi_{\theta}</script>.</li>
+  <li>This gradient term depends on the policy network probabilities, <script type="math/tex">\pi_{\theta}(a_t \vert s_t)</script>, and the rewards generated in each episode, <script type="math/tex">R_t</script>: <script type="math/tex">J(\theta) \approx \sum_{t=1}^T \log \pi_{\theta}(a_t \vert s_t) R_t</script>.</li>
+  <li>Replacing the expected return by a single sample results in a <em>noisy</em> estimate, which flows into policy gradient updates (and you will therefore hear people say that vanilla policy gradient has high variance).</li>
+  <li>You can reduce the variance of the updates by subtracting a “baseline” from <script type="math/tex">R_t</script>. A baseline that is itself an estimate of the expected reward can result in a much smaller weights, <script type="math/tex">R_t - b_t \ll R_t</script>. In other words, subtracting a baseline results in a <em>re-scaling</em> of the updates.</li>
+</ul>
+
+<p>Actor-critic methods replace both terms of the above expression with approximations based on the value function. First, we want <script type="math/tex">b_t</script> to be an approximation of the value function, so we’ll replace it by the output of a network  <script type="math/tex">\hat{V}^{\pi}_{\phi}(s_t) \approx V^{\pi}(s_t)</script>. Second, according to the Bellman equation, the expected reward-to-go is equal to the expected one-period reward plus the following expected return: <script type="math/tex">E[R_t] = E \left[r(s_t, a_t) + V^{\pi}(s_t') \right]</script>. If we knew the value function, then we could estimate this quantity by evaluating under random sample transitions <script type="math/tex">\{s_t, a_t, r_t, s_t'\}</script>. Instead, we add a second approximation error by replacing the true value function with the sample network that we used above. So our full estimate of the second term becomes <script type="math/tex">E[R_t] \approx r(s_t, a_t) + \hat{V}_{\phi}^{\pi}(s_t')</script>. We call this a “bootstrap” estimator because we are estimating <script type="math/tex">V</script> based in part on values generated by our estimate.</p>
+
+<p>For comparison, we could also estimate <script type="math/tex">E[R_t]</script> using the observed reward-to-go, <script type="math/tex">\sum_{\tau = t}^{T} r(s_{\tau}, a_{\tau})</script>. This is a Monte-Carlo estimator.</p>
+
+<h2 id="details">Details</h2>
+
+<p><strong>Algorithm (Batch Actor-Critic)</strong></p>
+<ol>
+  <li>Sample experiences <script type="math/tex">\{s_i, a_i, r_i, s'_i\}_{i=1}^N</script> using policy <script type="math/tex">\pi_{\theta}(a_i \vert s_i)</script></li>
+  <li>Calculate value targets <script type="math/tex">\{y_i\}_{i=1}^N</script> defined as <script type="math/tex">y_i = r_i + \gamma V_{\phi}^{\pi}(s_i')</script></li>
+  <li>Update <script type="math/tex">V_{\phi}^{\pi}</script> by minimizing <script type="math/tex">\|y_i - V_{\phi}^{\pi}(s_i')\|^2_2</script></li>
+  <li>Calculate policy targets <script type="math/tex">\{A_i\}_{i=1}^N</script> defined as <script type="math/tex">A_i = y_i - \gamma V_{\phi}^{\pi}(s_i')</script></li>
+  <li>Update <script type="math/tex">\pi_{\theta}(a_i \vert s_i)</script> by maximizing <script type="math/tex">\sum_{i=1}^N \log \pi_{\theta}(a_i \vert s_i) A_i</script></li>
+</ol>
+
+<p><strong>Notes</strong> 1. In step (3) the targets <script type="math/tex">y_i</script> are treated as constants (even though they depend on the value network). 2. In step (4) we are using the updated value network to re-calculate <script type="math/tex">y_i</script> and <script type="math/tex">V_{\phi}^{\pi}(s_i)</script>. 3. In step (5) the targets <script type="math/tex">A_i</script> are treated as constants (or else <script type="math/tex">\phi</script> will also update–we only want to update <script type="math/tex">\theta</script> in this step).</p>
+
+<h2 id="tensorflow">Tensorflow</h2>
+<ul>
+  <li>In this implementation I’ll use two networks, one to represent the actor (<script type="math/tex">\pi</script>), and one to represent the critic (<script type="math/tex">V</script>). It’s also possible to train a single network with two branches. This might make sense if the network contains convolutional layers so as to provide each branch with the same visual information.</li>
+  <li>The actor-critic algorithm is similar to the basic policy gradient algorithm, so we can mostly use the same routines from before. The main “gotcha” is making sure that training operations modify the correct parameters based on the correct errors. In step (2), we calculate targets <script type="math/tex">y_i</script> using the value network <script type="math/tex">V_{\phi}^{\pi}</script>. In the following step we want to update the parameters <script type="math/tex">\phi</script> based on <script type="math/tex">V_{\phi}^{\pi}(s_i')</script>, treating the <script type="math/tex">y_i</script> as fixed. The simple way to do this is to calculate the targets and the update in separate steps:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>targets = sess.run(values, feed_dict={states_pl: states})
+sess.run(values_update, feed_dict={states_pl: next_states, targets_pl: targets})
+</code></pre></div>    </div>
+  </li>
+  <li>Now once again in the policy update, <script type="math/tex">A_i</script> involves the value network, so an update that directly used the <script type="math/tex">A_i</script> <em>tensor</em> would update <script type="math/tex">\theta</script> and <script type="math/tex">\phi</script>. We can do the same thing as before, pre-calculating the weights <script type="math/tex">A_i</script>, and then feeding these as constants in the policy update operation. First, we get new <script type="math/tex">y_i</script> targets based on the updated value network
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>targets = sess.run(values, feed_dict={states_pl: states}),
+</code></pre></div>    </div>
+    <p>then we calculate the weights and update the policy network</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>weights = sess.run(weights, feed_dict={states_pl: next_states})
+sess.run(policy_update, feed_dict={states_pl: states, actions_pl: actions, weights_pl: weights})
+</code></pre></div>    </div>
+  </li>
+  <li>The rest of the implementation basically follows the policy gradient implementation.</li>
+</ul>
+
+    </div>
+    <div class="feat share">
+      <a href="http://twitter.com/share" class="popup">
+        <span class="icon-twitter"></span>
+      </a>
+    </div>
+    
+    
+  </article>
+</section>
+
+      </main>
+
+      <footer>
+        <small>Powered by Jekyll - Theme: <a href="https://github.com/m3xm/hikari-for-Jekyll">hikari</a> - &copy; Anonymous</small>
+      </footer>
+
+    </div>
+    
+
+    <script src="/js/main.js"></script>
+    
+    
+
+    <!-- Changing MathJax to KaTex -->
+    <script>
+      $("script[type='math/tex']").replaceWith(function() {
+          var tex = $(this).text();
+          return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: false});
+      });
+
+      $("script[type='math/tex; mode=display']").replaceWith(function() {
+          var tex = $(this).html();
+          return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+      });
+    </script>
+
+  </body>
+</html>
