@@ -23,6 +23,8 @@ ga_domain: katabaticwind.github.io
 
 # Other (refer to http://jekyllrb.com/docs/home/ for further details on the below)
 markdown: kramdown
+kramdown:
+  math_engine: mathjax
 permalink: pretty
 plugins:
   - jekyll-paginate
