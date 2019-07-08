@@ -1,43 +1,61 @@
 ---
 layout: default
-title: Homepage
+title: Blog
 ---
+<div class="uk-container uk-container-small uk-position-relative">
 
-<div id="home">
-  <ul class="posts">
-    {% for post in paginator.posts %}
-    <li itemscope itemtype="http://schema.org/BlogPosting">
-      <a href="{{ site.baseurl }}{{ post.url }}" itemprop="url">
-        <div class="p-wrap">
-          <article class="inner">
-            <time datetime="{{ post.date | date_to_xmlschema }}"
-                itemprop="datePublished">
-              {{ post.date | date_to_string }}
-            </time>
-            <p itemprop="name headline">{{ post.title }}</p>
-          </article>
+    <div class="uk-margin-large-bottom" uk-filter="target: .js-filter">
+
+        <div class="uk-grid-small uk-grid-divider" uk-grid>
+            <div class="uk-width-expand">
+                <ul class="uk-subnav uk-subnav-pill uk-flex-center tm-subnav-pill">
+                    <li class="uk-active" uk-filter-control><a href="#">All</a></li>
+                    <li uk-filter-control="[post-category='research']"><a href="#">Research</a></li>
+                    <li uk-filter-control="[post-category='development']"><a href="#">Development</a></li>
+                    <li uk-filter-control="[post-category='other']"><a href="#">Other</a></li>
+                </ul>
+            </div>
+
+            <div class="uk-width-1-3">
+                <ul class="uk-subnav uk-subnav-pill uk-flex-center tm-subnav-pill">
+                    <li class="uk-active" uk-filter-control="sort: post-date; order: desc"><a href="#">Newest</a></li>
+                    <li uk-filter-control="sort: post-date"><a href="#">Oldest</a></li>
+                    <!-- <li class="uk-active" uk-filter-control="sort: post-date; order: desc"><a href="#" uk-icon="icon: chevron-up"></a></li>
+                    <li uk-filter-control="sort: post-date"><a href="#" uk-icon="icon: chevron-down"></a></li> -->
+                    <!-- <li uk-filter-control="sort: post-views; order: desc"><a href="#">By views</a></li> -->
+                </ul>
+            </div>
         </div>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
 
-{% if paginator.total_pages > 1 %}
-<div class="pagination">
-  {% if paginator.next_page %}
-  <a href="{{ site.baseurl }}/page/{{paginator.next_page}}" class="older">Older</a>
-  {% else %}
-  <span class="next">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-    <a href="{{ site.baseurl }}/" class="newer">Newer</a>
-    {% else %}
-    <a href="{{ site.baseurl }}/page/{{paginator.previous_page}}" class="newer">Newer</a>
-    {% endif %}
-  {% else %}
-  <span class="previous">Newer</span>
-  {% endif %}
+        <ul class="js-filter" uk-grid>
+            {% for post in site.posts %}
+            <li id="{{ post.title }}" post-date="{{ post.date }}" post-category="{{ post.category }}">
+                <article class="uk-article uk-width-1-1">
+
+                    <h1 class="uk-article-title tm-article-title"><a class="uk-link-reset" href="{{ post.url }}"> {{ post.title }}</a></h1>
+
+                    <p class="uk-article-meta tm-article-meta">Written by <a href="#">{{ post.author }}</a> on {{ post.date | date: "%A, %B %-d, %Y" }}</p>
+
+                    <!-- {% for tag in post.tags %}
+                        <a class="uk-badge">#{{ tag }}</a>
+                    {% endfor %} -->
+
+                    <p class="uk-text-lead tm-text-lead">{{ post.excerpt }}</p>
+
+                    <div class="uk-grid-small uk-child-width-auto" uk-grid>
+                        <div>
+                            <a class="uk-button uk-button-text" href="{{ post.url }}">Read more</a>
+                        </div>
+                        <div>
+                            <a class="uk-button uk-button-text" href="#">Comments</a>
+                        </div>
+                    </div>
+
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
 </div>
-{% endif %}

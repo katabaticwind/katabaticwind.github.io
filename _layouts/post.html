@@ -1,34 +1,31 @@
 ---
 layout: default
 ---
+<div class="uk-container uk-container-small uk-position-relative">
 
-<section class="single-wrap">
-  <article class="single-content" itemscope itemtype="http://schema.org/BlogPosting">
-    <div class="feat">
-      <h5 class="page-date">
-        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-          {{ page.date | date_to_long_string }}
-        </time>
-      </h5>
+    <div>
+        <article class="uk-article">
+
+            <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{ page.title }}</a></h1>
+
+            <p class="uk-article-meta tm-article-meta">Written by <a href="#">{{ page.author }}</a> on {{ page.date | date: "%A, %B %-d, %Y" }}</a></p>
+
+            <!-- tags... -->
+
+            {{ content }}
+
+        </article>
+
     </div>
-    <h1 class="page-title" itemprop="name headline">{{ page.title }}</h1>
-    <div itemprop="articleBody">
-      {{ content }}
+
+    <div style="position: absolute; width: 200px; top: 0px; left: 860px;">
+        <div uk-sticky="offset: 260">
+            <ul class="uk-nav uk-nav-default uk-nav-parent-icon tm-nav" uk-scrollspy-nav="closest: li; scroll: true; offset: 100">
+                {% for section in page.sections %}
+                    <li><a href="#{{ section }}" uk-scroll>{{ section | capitalize }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="feat share">
-      <a href="http://twitter.com/share" class="popup">
-        <span class="icon-twitter"></span>
-      </a>
-    </div>
-    {% if page.next %}
-      <a rel="next" href="{{ site.baseurl }}{{ page.next.url }}" id="next">
-        <span class="nav-title nav-title-next">newer</span> &rarr;
-      </a>
-    {% endif %}
-    {% if page.previous %}
-      <a rel="prev" href="{{ site.baseurl }}{{ page.previous.url }}" id="prev">
-        &larr; <span class="nav-title nav-title-prev">older</span>
-      </a>
-    {% endif %}
-  </article>
-</section>
+
+</div>

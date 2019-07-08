@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Deep-Q Learning</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assets/css/uikit.min.css"/>
+        <link rel="stylesheet" href="/assets/css/prism.css"/>
+        <link rel="stylesheet" href="/assets/css/theme.css"/>
+        <script src="/assets/js/uikit.min.js"></script>
+        <script src="/assets/js/uikit-icons.min.js"></script>
+        <script src="/assets/js/prism.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+        <!-- KaTeX -->
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"></script>
+    </head>
+
+    <body class="uk-background uk-height-viewport">
+
+        <div class="tm-navbar-container" uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent; top: 300">
+
+    <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
+
+        <div class="uk-navbar-center">
+
+            <div class="uk-navbar-center-left">
+                <div>
+                    <ul class="uk-navbar-nav">
+                        
+                            <li class="uk-active"><a class="tm-navbar-item" href="/index.html">Blog</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+            <a class="uk-navbar-item uk-logo" href="#">
+                <img uk-svg src="/assets/img/penguin.svg" style="width:56px; height: 56px;">
+            </a>
+
+            <div class="uk-navbar-center-right">
+                <div>
+                    <ul class="uk-navbar-nav">
+                        
+                            <li><a class="tm-navbar-item" href="/info.html">Info</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+
+</div>
+
+
+        <div class="uk-section">
+
+                <div class="uk-container uk-container-small uk-position-relative">
+
+    <div>
+        <article class="uk-article">
+
+            <h1 class="uk-article-title"><a class="uk-link-reset" href="">Deep-Q Learning</a></h1>
+
+            <p class="uk-article-meta tm-article-meta">Written by <a href="#">Colin Swaney</a> on Monday, July 1, 2019</a></p>
+
+            <!-- tags... -->
+
+            <p>An introduction to deep reinforcement learning using Deep-Q learning.</p>
+
+
+        </article>
+
+    </div>
+
+    <div style="position: absolute; width: 200px; top: 0px; left: 860px;">
+        <div uk-sticky="offset: 260">
+            <ul class="uk-nav uk-nav-default uk-nav-parent-icon tm-nav" uk-scrollspy-nav="closest: li; scroll: true; offset: 100">
+                
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+        </div>
+
+        
+
+        <!-- Changing MathJax to KaTex -->
+        <script>
+          $("script[type='math/tex']").replaceWith(function() {
+              var tex = $(this).text();
+              return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: false});
+          });
+
+          $("script[type='math/tex; mode=display']").replaceWith(function() {
+              var tex = $(this).html();
+              return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+          });
+        </script>
+
+    </body>
+
+</html>
