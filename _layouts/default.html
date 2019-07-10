@@ -5,12 +5,16 @@
         <title>{{ page.title }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/assets/css/uikit.min.css"/>
+        <!-- theme -->
         <link rel="stylesheet" href="/assets/css/prism.css"/>
-        <link rel="stylesheet" href="/assets/css/theme.css"/>
+        <!-- UIKit -->
+        <link rel="stylesheet" href="/assets/css/uikit.min.css"/>
         <script src="/assets/js/uikit.min.js"></script>
         <script src="/assets/js/uikit-icons.min.js"></script>
+        <!-- Prism -->
+        <link rel="stylesheet" href="/assets/css/theme.css"/>
         <script src="/assets/js/prism.js"></script>
+        <!-- GoogleFonts -->
         <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
         <!-- KaTeX -->
@@ -23,7 +27,7 @@
 
         {% include navigation.html %}
 
-        <div class="uk-section">
+        <div class="uk-section uk-section-default uk-section-small">
 
                 {{ content }}
 
@@ -31,7 +35,7 @@
 
         {% include footer.html %}
 
-        <!-- Changing MathJax to KaTex -->
+        <!-- convert MathJax to KaTex -->
         <script>
           $("script[type='math/tex']").replaceWith(function() {
               var tex = $(this).text();
