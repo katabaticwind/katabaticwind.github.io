@@ -127,7 +127,25 @@ li > strong {
   content: "#";
   display: block;
   height: 33px;
-  margin-left: -35px;
+  margin-left: -25px;
+  position: absolute;
+  width: 25px;
+}
+.uk-article > h3::before {
+  color: rgba(153, 153, 153, 0.2);
+  content: "##";
+  display: block;
+  height: 33px;
+  margin-left: -40px;
+  position: absolute;
+  width: 25px;
+}
+.uk-article > h4::before {
+  color: rgba(153, 153, 153, 0.2);
+  content: "###";
+  display: block;
+  height: 33px;
+  margin-left: -50px;
   position: absolute;
   width: 25px;
 }
