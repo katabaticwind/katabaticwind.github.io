@@ -1,12 +1,12 @@
 ---
 layout: post
 author: Colin Swaney
-title: Deep Reinforcement Learning Introduction
+title: Introduction to Deep Reinforcement Learning
 date: 2019-07-08
 categories: [research]
 category: research
 tags: [reinforcement learning]
-excerpt: "<p>The first in a series of notes on deep reinforcement learning.</p>"
+excerpt: "<p>This is the first in a series of notes on deep reinforcement learning. I introduce the basic setting of reinforcement learning, describe environments, agents, and Markov Decision Processes, and provide some simple examples from OpenAI's <code>gym</code> package.</p>"
 ---
 
 This is the first in a series of introductory lectures on deep reinforcement learning. I plan to follow the classic text by Sutton and Barro [SB], but I will also borrow from the lecture notes used in Sergey Levine's [course on deep reinforcement learning](http://rail.eecs.berkeley.edu/deeprlcourse/) taught at Berkeley for the last few years. We won't get into the "deep" part of "deep reinforcement learning" for a few lectures, but hopefully laying out some groundwork will make the more modern ideas to come more meaningful.
