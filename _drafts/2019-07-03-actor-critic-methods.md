@@ -40,8 +40,8 @@ The A2C algorithm performs two "sub-updates" per full update: one to update the 
 > #### Algorithm (Batch A2C)
 > 1. Sample experiences $$\{s_i, a_i, r_i, s'_i\}_{i=1}^N$$ using policy $$\pi_{\theta}(a_i \vert s_i)$$
 > 2. Calculate value targets $$\{y_i\}_{i=1}^N$$ defined as $$y_i = r_i + \gamma V_{\phi}^{\pi}(s_i')$$
-> 3. Update $$V_{\phi}^{\pi}$$ by minimizing $$\|y_i - V_{\phi}^{\pi}(s_i')\|^2_2$$
-> 4. Calculate policy targets $$\{A_i\}_{i=1}^N$$ defined as $$A_i = y_i - \gamma V_{\phi}^{\pi}(s_i')$$
+> 3. Update $$V_{\phi}^{\pi}$$ by minimizing $$\|y_i - V_{\phi}^{\pi}(s_i)\|^2_2$$
+> 4. Calculate policy targets $$\{A_i\}_{i=1}^N$$ defined as $$A_i = y_i - V_{\phi}^{\pi}(s_i   )$$
 > 5. Update $$\pi_{\theta}(a_i \vert s_i)$$ by maximizing $$\sum_{i=1}^N \log \pi_{\theta}(a_i \vert s_i) A_i$$
 
 **Notes** 1. In step (3) the targets $$y_i$$ are treated as constants (even though they depend on the value network). 2. In step (4) we are using the updated value network to re-calculate $$y_i$$ and $$V_{\phi}^{\pi}(s_i)$$. 3. In step (5) the targets $$A_i$$ are treated as constants (or else $$\phi$$ will also update--we only want to update $$\theta$$ in this step).

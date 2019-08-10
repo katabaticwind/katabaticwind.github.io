@@ -9,10 +9,16 @@
                     <ul class="uk-navbar-nav">
                         {% if page.url == "/index.html" %}
                             <li class="uk-active"><a class="tm-navbar-item" href="#">Blog</a></li>
-                        {% else if page.url != "/info.html" %}
+                        {% elsif page.url != "/info.html" %}
                             <li class="uk-active"><a class="tm-navbar-item" href="/index.html">Blog</a></li>
                         {% else %}
                             <li><a class="tm-navbar-item" href="/index.html">Blog</a></li>
+                        {% endif %}
+
+                        {% if page.url == "/info.html" %}
+                            <li class="uk-active"><a class="tm-navbar-item" href="#">Info</a></li>
+                        {% else %}
+                            <li><a class="tm-navbar-item" href="/info.html">Info</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -25,11 +31,12 @@
             <div class="uk-navbar-center-right">
                 <div>
                     <ul class="uk-navbar-nav">
-                        {% if page.url == "/info.html" %}
-                            <li class="uk-active"><a class="tm-navbar-item" href="#">Info</a></li>
-                        {% else %}
-                            <li><a class="tm-navbar-item" href="/info.html">Info</a></li>
-                        {% endif %}
+                        <li>
+                            <a href="https://github.com/katabaticwind" uk-icon="icon: github; ratio: 1.5"></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/SwaneyColin?lang=en" uk-icon="icon: twitter; ratio: 1.5"></a>
+                        </li>
                     </ul>
                 </div>
             </div>
